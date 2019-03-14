@@ -10,7 +10,7 @@ namespace UserManagement.Core.Abstractions
     public interface IPasswordService
     {
         string Hash(string password, string salt);
-        bool IsValidPassword(string password, string passwordHash);
-        Password CreatePasswordModel(string password, int userId);
+        string GenerateSalt();
+        bool IsValidPassword(string password, string passwordHash, string passwordSalt);
     }
 }

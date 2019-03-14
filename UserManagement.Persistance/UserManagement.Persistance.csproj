@@ -59,7 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implementations\AuthorizationRepository.cs" />
+    <Compile Include="Implementations\PasswordRepository.cs" />
     <Compile Include="Implementations\Persistance.cs" />
     <Compile Include="Implementations\UserContext.cs" />
     <Compile Include="Implementations\UserRepository.cs" />

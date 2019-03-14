@@ -5,7 +5,7 @@ using Unity;
 using Unity.AspNet.WebApi;
 using UserManagement.Core.Abstractions;
 using UserManagement.Core.Implementations;
-using UserManagement.Implementation;
+using UserManagement.Implementation.Services;
 using UserManagement.Persistance.Implementations;
 using UserManagement.WebApi.Utilities;
 
@@ -43,20 +43,14 @@ namespace UserManagement.WebApi
         /// </remarks>
         public static void RegisterTypes(IUnityContainer container)
         {
-            // NOTE: To load from web.config uncomment the line below.
-            // Make sure to add a Unity.Configuration to the using statements.
-            // container.LoadConfiguration();
-
-            // TODO: Register your type's mappings here.
-            // container.RegisterType<IProductRepository, ProductRepository>();
-
+            container.RegisterType<IUserValidationService, UserValidationService>();
             container.RegisterType<IPasswordService, PasswordService>();
             container.RegisterType<IJwtService, JwtService>();
             container.RegisterType<IUserRepository, UserRepository>();
-            container.RegisterType<IAuthorizationRepository, AuthorizationRepository>();
+            container.RegisterType<IPasswordRepository, PasswordRepository>();
             container.RegisterType<IPersistance, Persistance.Implementations.Persistance>();
             container.RegisterType<IUserService, UserService>();
-            container.RegisterType<IAuthorizationService, AuthorizationService>();
+            container.RegisterType<IAuthenticationService, AuthenticationService>();
 
             var config = new AutoMapperConfiguration().Configure();
             IMapper mapper = config.CreateMapper();

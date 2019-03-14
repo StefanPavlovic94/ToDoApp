@@ -2,7 +2,7 @@
 
 namespace UserManagement.Core.Abstractions
 {
-    public interface IAuthorizationRepository
+    public interface IPasswordRepository
     {
         void CreatePassword(Password password);
         Password GetPasswordInfo(string email);

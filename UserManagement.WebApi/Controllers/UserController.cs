@@ -40,7 +40,6 @@ namespace UserManagement.WebApi.Controllers
             var createdUser = this._userService.Register(user, userViewModel.Password);
 
             var createdUserViewModel = this._mapper.Map<UserViewModel>(createdUser);
-
             return Json(createdUserViewModel);
         }
 
@@ -51,7 +50,6 @@ namespace UserManagement.WebApi.Controllers
             var editedUser = this._userService.EditUser(user);
 
             var editedUserViewModel = this._mapper.Map<UserViewModel>(editedUser);
-
             return Json(editedUserViewModel);
         }
 

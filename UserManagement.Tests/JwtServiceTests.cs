@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UserManagement.Core.Abstractions;
-using UserManagement.Implementation;
+using UserManagement.Implementation.Services;
 
 namespace UserManagement.Tests
 {
@@ -18,7 +18,7 @@ namespace UserManagement.Tests
         [TestMethod]
         public void TestJwtCreation()
         {
-            var token = this._jwtService.GenerateJwt(1);
+            var token = this._jwtService.GenerateJwtTokens(1);
 
             Assert.AreNotEqual(null, token);
             Assert.AreNotEqual("", token);

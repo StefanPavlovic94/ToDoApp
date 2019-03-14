@@ -31,6 +31,13 @@ namespace UserManagement.Core.Implementations
 
         public User EditUser(User user)
         {
+            var userValidForEdit = this._userValidationService.ValidateEditUser(user);
+
+            if (!userValidForEdit)
+            {
+                return null;
+            }
+
             return this._persistance.UserRepository.EditUser(user);
         }
 
@@ -55,7 +62,15 @@ namespace UserManagement.Core.Implementations
                 createdUser = this._persistance.UserRepository.CreateUser(user);
                 this._persistance.SaveChanges();
 
-                Password passwordModel = this._passwordService.CreatePasswordModel(password, createdUser.Id); //todo: MOve this in password repository
+                var salt = this._passwordService.GenerateSalt();
+                var hash = this._passwordService.Hash(password, salt);
+
+                var passwordModel = new Password()
+                {
+                    UserId = createdUser.Id,
+                    Salt = salt,
+                    Hash = hash
+                };
 
                 this._persistance.AuthorizationRepository.CreatePassword(passwordModel);
 

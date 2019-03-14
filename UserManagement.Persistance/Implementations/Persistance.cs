@@ -14,14 +14,16 @@ namespace UserManagement.Persistance.Implementations
         private DbContextTransaction dbTransaction;
 
         public IUserRepository UserRepository { get; set; }
-        public IAuthorizationRepository AuthorizationRepository { get; set; }
+        public IPasswordRepository AuthorizationRepository { get; set; }
+        public IPasswordRepository PasswordRepository { get; set; }
 
         public Persistance(UserContext userContext)
         {
             this.userContext = userContext;
 
             this.UserRepository = new UserRepository(userContext);
-            this.AuthorizationRepository = new AuthorizationRepository(userContext);
+            this.AuthorizationRepository = new PasswordRepository(userContext);
+            this.PasswordRepository = new PasswordRepository(userContext);
         }
         
         public IDisposable BeginTransaction()

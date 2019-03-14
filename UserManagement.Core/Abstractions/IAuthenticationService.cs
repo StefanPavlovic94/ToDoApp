@@ -7,8 +7,9 @@ using UserManagement.Core.Model;
 
 namespace UserManagement.Core.Abstractions
 {
-    public interface IJwtService
+    public interface IAuthenticationService
     {
-        AuthenticationResponse GenerateJwtTokens(int userId);
+        AuthenticationResponse Login(string email, string password);
+        AuthenticationResponse RefreshToken(string refreshToken);
     }
 }

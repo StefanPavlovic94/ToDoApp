@@ -4,11 +4,11 @@ using UserManagement.Core.Model;
 
 namespace UserManagement.Persistance.Implementations
 {
-    public class AuthorizationRepository : IAuthorizationRepository
+    public class PasswordRepository : IPasswordRepository
     {
         private UserContext userContext { get; set; }
 
-        public AuthorizationRepository(UserContext userContext)
+        public PasswordRepository(UserContext userContext)
         {
             this.userContext = userContext;
         }

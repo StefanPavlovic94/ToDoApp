@@ -9,11 +9,13 @@ namespace UserManagement.Core.Abstractions
     public interface IPersistance
     {
         IUserRepository UserRepository { get; set; }
-        IAuthorizationRepository AuthorizationRepository { get; set; }
+        IPasswordRepository AuthorizationRepository { get; set; }
+        IPasswordRepository PasswordRepository { get; set; }
 
         int SaveChanges();
 
         IDisposable BeginTransaction();
         void TransactionCommit();
+        void TransactionRollback();
     }
 }

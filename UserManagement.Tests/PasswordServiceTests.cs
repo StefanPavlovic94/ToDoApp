@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UserManagement.Core.Abstractions;
-using UserManagement.Implementation;
+using UserManagement.Implementation.Services;
 
 namespace UserManagement.Tests
 {

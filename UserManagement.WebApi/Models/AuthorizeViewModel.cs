@@ -9,5 +9,6 @@ namespace UserManagement.WebApi.Models
     {
         public string Email { get; set; }
         public string Password { get; set; }
+        public string PasswordRetype { get; set; }
     }
 }
