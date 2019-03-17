@@ -22,7 +22,7 @@ namespace UserManagement.Core.Implementations
         {
             this._persistance = persistance;
             this._jwtService = jwtService;
-            this._passwordService = passwordService;
+            this._passwordService = passwordService;           
         }
 
         public AuthenticationResponse Login(string email, string password)

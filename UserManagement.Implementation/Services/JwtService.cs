@@ -1,10 +1,12 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using UserManagement.Core.Abstractions;
@@ -17,22 +19,25 @@ namespace UserManagement.Implementation.Services
         private readonly string _accessTokenSecret;
         private readonly string _refreshTokenSecret;
 
-        public JwtService()
+        public JwtService(string accessTokenSecret, string refreshTokenSecret)
         {
-            this._accessTokenSecret = ConfigurationManager.AppSettings["AccessTokenSecret"];
-            this._refreshTokenSecret = ConfigurationManager.AppSettings["RefreshTokenSecret"];
+            this._accessTokenSecret = accessTokenSecret;
+            this._refreshTokenSecret = refreshTokenSecret;
         }
 
         public AuthenticationResponse GenerateJwtTokens(int userId)
         {
-            byte[] accessTokenKey = Convert.FromBase64String(this._accessTokenSecret);
+            var accessTokenBase64String = Convert.ToBase64String(Encoding.UTF8.GetBytes(this._accessTokenSecret));
+            var refreshTokenBase64String = Convert.ToBase64String(Encoding.UTF8.GetBytes(this._refreshTokenSecret));
+
+            byte[] accessTokenKey = Convert.FromBase64String(accessTokenBase64String);
             SymmetricSecurityKey accessTokenSecurityKey = new SymmetricSecurityKey(accessTokenKey);
 
-            byte[] refreshTokenKey = Convert.FromBase64String(this._refreshTokenSecret);
+            byte[] refreshTokenKey = Convert.FromBase64String(refreshTokenBase64String);
             SymmetricSecurityKey refreshTokenSecurityKey = new SymmetricSecurityKey(refreshTokenKey);
 
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(new[] {            
-                new Claim("UserId", userId.ToString())
+                new Claim(CustomClaim.UserId.ToString(), userId.ToString())
             });
 
             SecurityTokenDescriptor accessTokenDescriptor = new SecurityTokenDescriptor
@@ -60,6 +65,68 @@ namespace UserManagement.Implementation.Services
                 AccessToken = handler.WriteToken(accessSecurityToken),
                 RefreshToken = handler.WriteToken(refreshSecurityToken)
             };
+        }
+
+        public bool ValidateJwtToken(string token, JwtTokenType tokenType)
+        {
+            try
+            {
+                var secretKey = GetSecretKey(tokenType);
+
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var validationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+                };
+
+                IPrincipal principal = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public JwtInfo ReadJwtToken(string token, JwtTokenType tokenType)
+        {
+            var isValidJwt = ValidateJwtToken(token, tokenType);
+
+            if (!isValidJwt)
+            {
+                return new JwtInfo() { IsValidJwt = false };
+            }
+
+            var secretKey = GetSecretKey(tokenType);
+
+            var handler = new JwtSecurityTokenHandler();
+            var securityToken = handler.ReadToken(token) as JwtSecurityToken;
+
+            var userId = securityToken.Claims
+                .First(c => c.ValueType == CustomClaim.UserId.ToString())
+                .Value;
+
+            return new JwtInfo()
+                .WithClaim(CustomClaim.UserId, userId.ToString(), validJwt: true);
+        }
+
+        private string GetSecretKey(JwtTokenType tokenType)
+        {
+            switch (tokenType)
+            {
+                case JwtTokenType.AccessToken:
+                    return _accessTokenSecret;
+
+                case JwtTokenType.RefreshToken:
+                    return _refreshTokenSecret;
+
+                default:
+                    throw new Exception($"Token type {tokenType} dont have secret key");
+            }
+
         }
     }
 }

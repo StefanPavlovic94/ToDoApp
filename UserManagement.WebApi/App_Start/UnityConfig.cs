@@ -1,8 +1,10 @@
 using AutoMapper;
 using System;
+using System.Configuration;
 using System.Web.Http;
 using Unity;
 using Unity.AspNet.WebApi;
+using Unity.Injection;
 using UserManagement.Core.Abstractions;
 using UserManagement.Core.Implementations;
 using UserManagement.Implementation.Services;
@@ -45,7 +47,11 @@ namespace UserManagement.WebApi
         {
             container.RegisterType<IUserValidationService, UserValidationService>();
             container.RegisterType<IPasswordService, PasswordService>();
-            container.RegisterType<IJwtService, JwtService>();
+
+            container.RegisterType<IJwtService, JwtService>(new InjectionConstructor(
+                new[] { ConfigurationManager.AppSettings["AccessTokenSecret"],
+                        ConfigurationManager.AppSettings["RefreshTokenSecret"] }));
+
             container.RegisterType<IUserRepository, UserRepository>();
             container.RegisterType<IPasswordRepository, PasswordRepository>();
             container.RegisterType<IPersistance, Persistance.Implementations.Persistance>();

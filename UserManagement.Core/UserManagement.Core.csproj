@@ -51,6 +51,7 @@
     <Compile Include="Abstractions\IValidationService.cs" />
     <Compile Include="Implementations\AuthenticationService.cs" />
     <Compile Include="Model\AuthenticationResponse.cs" />
+    <Compile Include="Model\JwtInfo.cs" />
     <Compile Include="Model\Password.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

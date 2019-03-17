@@ -23,7 +23,7 @@ namespace UserManagement.Tests
 
             var passwordHash = this._passwordService.Hash(password, salt);
 
-            var isPasswordValid = this._passwordService.IsValidPassword(password, passwordHash);
+            var isPasswordValid = this._passwordService.IsValidPassword(password, passwordHash, salt);
 
             Assert.AreEqual(true, isPasswordValid);
         }
@@ -38,7 +38,7 @@ namespace UserManagement.Tests
 
             var passwordHash = this._passwordService.Hash(password, salt);
 
-            var isPasswordValid = this._passwordService.IsValidPassword(invalidPassword, passwordHash);
+            var isPasswordValid = this._passwordService.IsValidPassword(invalidPassword, passwordHash, salt);
 
             Assert.AreNotEqual(true, isPasswordValid);
         }       
