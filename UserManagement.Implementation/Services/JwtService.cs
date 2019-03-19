@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using UserManagement.Core.Abstractions;
 using UserManagement.Core.Enums;
 using UserManagement.Core.Model;
+using UserManagement.Core.Utilities;
 
 namespace UserManagement.Implementation.Services
 {
@@ -90,7 +91,7 @@ namespace UserManagement.Implementation.Services
             return true;
         }
 
-        public JwtInfo ReadJwtToken(string token, JwtTokenType tokenType)
+        public AuthenticationInfo ReadJwtToken(string token, JwtTokenType tokenType)
         {
             try
             {
@@ -103,12 +104,12 @@ namespace UserManagement.Implementation.Services
                     .First(c => c.Type == CustomClaimType.UserId.ToString())
                     .Value;
 
-                return new JwtInfo()
+                return new AuthenticationInfo()
                     .WithClaim(CustomClaimType.UserId, userId.ToString(), validJwt: true);
             }
             catch (Exception)
             {
-                return new JwtInfo() { IsValidJwt = false };
+                return new AuthenticationInfo() { IsValidJwt = false };
             }
         }
 

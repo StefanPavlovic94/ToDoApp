@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Effort;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Common;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,21 @@ namespace UserManagement.Persistance.Implementations
         {
         }
 
+        public UserContext(DbConnection connection) : base(connection, false)
+        {
+        }
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+        }
+
+        public static UserContext AsInMemoryDatabase()
+        {
+            var connection = DbConnectionFactory.CreateTransient();
+
+            return new UserContext(connection);
         }
     }
 }

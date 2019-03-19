@@ -11,7 +11,7 @@ namespace UserManagement.Core.Abstractions
     public interface IJwtService
     {
         AuthenticationResponse GenerateJwtTokens(int userId);
-        JwtInfo ReadJwtToken(string token, JwtTokenType tokenType);
+        AuthenticationInfo ReadJwtToken(string token, JwtTokenType tokenType);
         bool ValidateJwtToken(string token, JwtTokenType tokenType);
     }
 }
