@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstractions\IAuthenticationValidationService.cs" />
     <Compile Include="Abstractions\IPasswordRepository.cs" />
     <Compile Include="Abstractions\IAuthenticationService.cs" />
     <Compile Include="Abstractions\IJwtService.cs" />
@@ -49,6 +50,8 @@
     <Compile Include="Abstractions\IUserRepository.cs" />
     <Compile Include="Abstractions\IUserService.cs" />
     <Compile Include="Abstractions\IValidationService.cs" />
+    <Compile Include="Enums\CustomClaimType.cs" />
+    <Compile Include="Enums\JwtTokenType.cs" />
     <Compile Include="Implementations\AuthenticationService.cs" />
     <Compile Include="Model\AuthenticationResponse.cs" />
     <Compile Include="Model\JwtInfo.cs" />

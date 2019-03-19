@@ -46,17 +46,18 @@ namespace UserManagement.WebApi
         public static void RegisterTypes(IUnityContainer container)
         {
             container.RegisterType<IUserValidationService, UserValidationService>();
-            container.RegisterType<IPasswordService, PasswordService>();
+            container.RegisterType<IAuthenticationValidationService, AuthenticationValidationService>();
 
-            container.RegisterType<IJwtService, JwtService>(new InjectionConstructor(
+            container.RegisterType<IJwtService, Implementation.Services.JwtService>(new InjectionConstructor(
                 new[] { ConfigurationManager.AppSettings["AccessTokenSecret"],
                         ConfigurationManager.AppSettings["RefreshTokenSecret"] }));
 
+            container.RegisterType<IPasswordService, PasswordService>();
             container.RegisterType<IUserRepository, UserRepository>();
             container.RegisterType<IPasswordRepository, PasswordRepository>();
             container.RegisterType<IPersistance, Persistance.Implementations.Persistance>();
             container.RegisterType<IUserService, UserService>();
-            container.RegisterType<IAuthenticationService, AuthenticationService>();
+            container.RegisterType<IAuthenticationService, Core.Implementations.AuthenticationService>();
 
             var config = new AutoMapperConfiguration().Configure();
             IMapper mapper = config.CreateMapper();

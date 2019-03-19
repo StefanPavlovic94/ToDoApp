@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace UserManagement.WebApi.Models
+namespace UserManagement.WebApi.ViewModels
 {
     public class UserViewModel
     {

@@ -10,6 +10,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using UserManagement.Core.Abstractions;
+using UserManagement.Core.Enums;
 using UserManagement.Core.Model;
 
 namespace UserManagement.Implementation.Services
@@ -27,44 +28,42 @@ namespace UserManagement.Implementation.Services
 
         public AuthenticationResponse GenerateJwtTokens(int userId)
         {
-            var accessTokenBase64String = Convert.ToBase64String(Encoding.UTF8.GetBytes(this._accessTokenSecret));
-            var refreshTokenBase64String = Convert.ToBase64String(Encoding.UTF8.GetBytes(this._refreshTokenSecret));
-
-            byte[] accessTokenKey = Convert.FromBase64String(accessTokenBase64String);
-            SymmetricSecurityKey accessTokenSecurityKey = new SymmetricSecurityKey(accessTokenKey);
-
-            byte[] refreshTokenKey = Convert.FromBase64String(refreshTokenBase64String);
-            SymmetricSecurityKey refreshTokenSecurityKey = new SymmetricSecurityKey(refreshTokenKey);
-
-            ClaimsIdentity claimsIdentity = new ClaimsIdentity(new[] {            
-                new Claim(CustomClaim.UserId.ToString(), userId.ToString())
-            });
-
-            SecurityTokenDescriptor accessTokenDescriptor = new SecurityTokenDescriptor
-            {
-                      Subject = claimsIdentity,                      
-                      Expires = DateTime.UtcNow.AddMinutes(1),
-                      SigningCredentials = new SigningCredentials(accessTokenSecurityKey,SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            SecurityTokenDescriptor refreshTokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = claimsIdentity,
-                Expires = DateTime.UtcNow.AddMinutes(30),
-                SigningCredentials = new SigningCredentials(refreshTokenSecurityKey, SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
-
-            JwtSecurityToken accessSecurityToken = handler.CreateJwtSecurityToken(accessTokenDescriptor);
-            JwtSecurityToken refreshSecurityToken = handler.CreateJwtSecurityToken(refreshTokenDescriptor);
+            var accessToken = GenerateJwtToken(userId, JwtTokenType.AccessToken, DateTime.UtcNow.AddMinutes(1));
+            var refreshToken = GenerateJwtToken(userId, JwtTokenType.RefreshToken, DateTime.UtcNow.AddMinutes(20));
 
             return new AuthenticationResponse()
             {
                 IsAuthenticated = true,
-                AccessToken = handler.WriteToken(accessSecurityToken),
-                RefreshToken = handler.WriteToken(refreshSecurityToken)
+                AccessToken = accessToken,
+                RefreshToken = refreshToken
             };
+        }
+
+        private string GenerateJwtToken(int userId, JwtTokenType tokenType, DateTime expireDate)
+        {
+            var secretKey = GetSecretKey(tokenType);
+
+            var secretKeyBase64String = Convert.ToBase64String(Encoding.UTF8.GetBytes(secretKey));
+
+            byte[] tokenKey = Convert.FromBase64String(secretKeyBase64String);
+            SymmetricSecurityKey symmetricSecurityKey = new SymmetricSecurityKey(tokenKey);
+
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(new[] {
+                new Claim(CustomClaimType.UserId.ToString(), userId.ToString())
+            });
+
+            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = claimsIdentity,
+                Expires = expireDate,
+                SigningCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+
+            JwtSecurityToken accessSecurityToken = handler.CreateJwtSecurityToken(tokenDescriptor);
+
+            return handler.WriteToken(accessSecurityToken);
         }
 
         public bool ValidateJwtToken(string token, JwtTokenType tokenType)
@@ -93,24 +92,24 @@ namespace UserManagement.Implementation.Services
 
         public JwtInfo ReadJwtToken(string token, JwtTokenType tokenType)
         {
-            var isValidJwt = ValidateJwtToken(token, tokenType);
+            try
+            {
+                var secretKey = GetSecretKey(tokenType);
 
-            if (!isValidJwt)
+                var handler = new JwtSecurityTokenHandler();
+                var securityToken = handler.ReadToken(token) as JwtSecurityToken;
+
+                var userId = securityToken.Claims
+                    .First(c => c.Type == CustomClaimType.UserId.ToString())
+                    .Value;
+
+                return new JwtInfo()
+                    .WithClaim(CustomClaimType.UserId, userId.ToString(), validJwt: true);
+            }
+            catch (Exception)
             {
                 return new JwtInfo() { IsValidJwt = false };
             }
-
-            var secretKey = GetSecretKey(tokenType);
-
-            var handler = new JwtSecurityTokenHandler();
-            var securityToken = handler.ReadToken(token) as JwtSecurityToken;
-
-            var userId = securityToken.Claims
-                .First(c => c.ValueType == CustomClaim.UserId.ToString())
-                .Value;
-
-            return new JwtInfo()
-                .WithClaim(CustomClaim.UserId, userId.ToString(), validJwt: true);
         }
 
         private string GetSecretKey(JwtTokenType tokenType)
@@ -126,7 +125,6 @@ namespace UserManagement.Implementation.Services
                 default:
                     throw new Exception($"Token type {tokenType} dont have secret key");
             }
-
         }
     }
 }

@@ -38,12 +38,18 @@ namespace UserManagement.Core.Implementations
                 return null;
             }
 
-            return this._persistance.UserRepository.EditUser(user);
+            var editedUser = this._persistance.UserRepository.EditUser(user);
+            this._persistance.SaveChanges();
+
+            return editedUser;
         }
 
         public User DeleteUser(int userId)
         {
-            return this._persistance.UserRepository.DeleteUser(userId);
+            var deletedUser = this._persistance.UserRepository.DeleteUser(userId);
+            this._persistance.SaveChanges();
+
+            return deletedUser;
         }
 
         public User Register(User user, string password)
@@ -57,13 +63,13 @@ namespace UserManagement.Core.Implementations
 
             User createdUser = null;
 
+            var salt = this._passwordService.GenerateSalt();
+            var hash = this._passwordService.Hash(password, salt);
+
             using (this._persistance.BeginTransaction())
             {
                 createdUser = this._persistance.UserRepository.CreateUser(user);
                 this._persistance.SaveChanges();
-
-                var salt = this._passwordService.GenerateSalt();
-                var hash = this._passwordService.Hash(password, salt);
 
                 var passwordModel = new Password()
                 {

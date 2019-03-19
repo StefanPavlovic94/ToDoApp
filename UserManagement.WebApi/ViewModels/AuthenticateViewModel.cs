@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace UserManagement.WebApi.Models
+namespace UserManagement.WebApi.ViewModels
 {
-    public class AuthorizeViewModel
+    public class AuthenticateViewModel
     {
         public string Email { get; set; }
         public string Password { get; set; }
-        public string PasswordRetype { get; set; }
     }
 }

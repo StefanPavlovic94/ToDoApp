@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UserManagement.Core.Abstractions;
+using UserManagement.Core.Enums;
 using UserManagement.Implementation.Services;
 
 namespace UserManagement.Tests
@@ -49,7 +50,7 @@ namespace UserManagement.Tests
         {
             var tokens = this._jwtService.GenerateJwtTokens(1);
 
-            var isValidToken = this._jwtService.ValidateJwtToken(tokens.AccessToken, Core.Model.JwtTokenType.AccessToken);
+            var isValidToken = this._jwtService.ValidateJwtToken(tokens.AccessToken, JwtTokenType.AccessToken);
 
             Assert.AreEqual(true, isValidToken);
         }
@@ -59,7 +60,7 @@ namespace UserManagement.Tests
         {
             var tokens = this._jwtService.GenerateJwtTokens(1);
 
-            var isValidToken = this._jwtService.ValidateJwtToken(tokens.RefreshToken, Core.Model.JwtTokenType.RefreshToken);
+            var isValidToken = this._jwtService.ValidateJwtToken(tokens.RefreshToken, JwtTokenType.RefreshToken);
 
             Assert.AreEqual(true, isValidToken);
         }
@@ -69,7 +70,7 @@ namespace UserManagement.Tests
         {
             var tokens = this._jwtService.GenerateJwtTokens(1);
 
-            var isValidToken = this._jwtService.ValidateJwtToken(tokens.AccessToken, Core.Model.JwtTokenType.RefreshToken);
+            var isValidToken = this._jwtService.ValidateJwtToken(tokens.AccessToken, JwtTokenType.RefreshToken);
 
             Assert.AreNotEqual(true, isValidToken);
         }
@@ -79,7 +80,7 @@ namespace UserManagement.Tests
         {
             var tokens = this._jwtService.GenerateJwtTokens(1);
 
-            var isValidToken = this._jwtService.ValidateJwtToken(tokens.RefreshToken, Core.Model.JwtTokenType.AccessToken);
+            var isValidToken = this._jwtService.ValidateJwtToken(tokens.RefreshToken, JwtTokenType.AccessToken);
 
             Assert.AreNotEqual(true, isValidToken);
         }

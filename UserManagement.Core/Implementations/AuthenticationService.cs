@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using UserManagement.Core.Abstractions;
+using UserManagement.Core.Enums;
 using UserManagement.Core.Model;
 
 namespace UserManagement.Core.Implementations
@@ -14,23 +15,27 @@ namespace UserManagement.Core.Implementations
         private readonly IPersistance _persistance;
         private readonly IPasswordService _passwordService;
         private readonly IJwtService _jwtService;
+        private readonly IAuthenticationValidationService _authenticationValidation;
 
         public AuthenticationService(
             IPersistance persistance,
             IPasswordService passwordService,
-            IJwtService jwtService)
+            IJwtService jwtService,
+            IAuthenticationValidationService authenticationValidation)
         {
             this._persistance = persistance;
             this._jwtService = jwtService;
-            this._passwordService = passwordService;           
+            this._passwordService = passwordService;
+            this._authenticationValidation = authenticationValidation;
         }
 
         public AuthenticationResponse Login(string email, string password)
         {
             var authenticationResponse = new AuthenticationResponse() { IsAuthenticated = false };
 
-            if (string.IsNullOrWhiteSpace(email) ||
-                string.IsNullOrWhiteSpace(password))
+            var validationResult = _authenticationValidation.ValidateLogin(email, password);
+
+            if (!validationResult)
             {
                 return authenticationResponse;
             }
@@ -52,8 +57,19 @@ namespace UserManagement.Core.Implementations
 
         public AuthenticationResponse RefreshToken(string refreshToken)
         {
-            //validate refresh token
+            var isRefreshTokenValid = this._jwtService.ValidateJwtToken(refreshToken, JwtTokenType.RefreshToken);
+
+            if (!isRefreshTokenValid)
+            {
+                return new AuthenticationResponse()
+                {
+                    IsAuthenticated = false,
+                    AccessToken = null,
+                    RefreshToken = null
+                };
+            }
+
             return this._jwtService.GenerateJwtTokens(0);
-        }
+        }       
     }
 }

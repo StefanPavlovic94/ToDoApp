@@ -14,6 +14,7 @@ namespace UserManagement.WebApi.Utilities
             {
                 cfg.AddProfile<UserMapperProfile>();
             });
+
             return config;
         }
     }

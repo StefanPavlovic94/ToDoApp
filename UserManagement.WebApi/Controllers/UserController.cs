@@ -7,18 +7,22 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Results;
 using UserManagement.Core.Abstractions;
+using UserManagement.WebApi.Atributes;
 using UserManagement.WebApi.Models;
+using UserManagement.WebApi.ViewModels;
 
 namespace UserManagement.WebApi.Controllers
 {
-    public class UserController : ApiController
+    public class UserController : BaseController
     {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
         public UserController(
             IUserService userService, 
-            IMapper mapper)
+            IMapper mapper,
+            IJwtService jwtService) 
+            : base(jwtService)
         {
             this._userService = userService;
             this._mapper = mapper;
@@ -44,6 +48,7 @@ namespace UserManagement.WebApi.Controllers
         }
 
         [HttpPut]
+        [AuthenticationAtribute]
         public JsonResult<UserViewModel> Edit(CreateUserViewModel userViewModel)
         {
             var user = this._mapper.Map<Core.Model.User>(userViewModel);
@@ -54,6 +59,7 @@ namespace UserManagement.WebApi.Controllers
         }
 
         [HttpDelete]
+        [AuthenticationAtribute]
         public JsonResult<UserViewModel> Delete(int id)
         {
             var user = this._userService.DeleteUser(id);

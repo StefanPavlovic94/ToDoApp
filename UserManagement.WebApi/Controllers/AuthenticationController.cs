@@ -3,25 +3,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Web.Http;
 using UserManagement.Core.Abstractions;
 using UserManagement.Core.Model;
-using UserManagement.WebApi.Models;
+using UserManagement.WebApi.ViewModels;
 
 namespace UserManagement.WebApi.Controllers
 {
-    public class AuthenticationController : ApiController
+    public class AuthenticationController : BaseController
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly IMapper _mapper;
 
-        public AuthenticationController(IAuthenticationService authorizationService)
+        public AuthenticationController(IAuthenticationService authorizationService, IJwtService jwtService) 
+            : base(jwtService)
         {
             this._authenticationService = authorizationService;
         }
 
-        public AuthenticationResponse Authenticate(AuthorizeViewModel model)
+        public AuthenticationResponse Authenticate(AuthenticateViewModel model)
         {
             return this._authenticationService.Login(model.Email, model.Password);
         }

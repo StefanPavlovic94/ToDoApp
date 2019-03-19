@@ -1,4 +1,4 @@
-﻿namespace UserManagement.WebApi.Models
+﻿namespace UserManagement.WebApi.ViewModels
 {
     public class CreateUserViewModel : UserViewModel
     {

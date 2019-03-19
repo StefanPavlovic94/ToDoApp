@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using UserManagement.Core.Model;
-using UserManagement.WebApi.Models;
+using UserManagement.WebApi.ViewModels;
 
 namespace UserManagement.WebApi.Utilities
 {
