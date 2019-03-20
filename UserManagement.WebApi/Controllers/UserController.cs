@@ -40,7 +40,7 @@ namespace UserManagement.WebApi.Controllers
         [HttpPost]
         public JsonResult<UserViewModel> Register(CreateUserViewModel userViewModel)
         {
-            var user = this._mapper.Map<Core.Model.User>(userViewModel);
+            var user = this._mapper.Map<Core.DomainModel.User>(userViewModel);
             var createdUser = this._userService.Register(user, userViewModel.Password);
 
             var createdUserViewModel = this._mapper.Map<UserViewModel>(createdUser);
@@ -51,7 +51,7 @@ namespace UserManagement.WebApi.Controllers
         [AuthenticationAtribute]
         public JsonResult<UserViewModel> Edit(CreateUserViewModel userViewModel)
         {
-            var user = this._mapper.Map<Core.Model.User>(userViewModel);
+            var user = this._mapper.Map<Core.DomainModel.User>(userViewModel);
             var editedUser = this._userService.EditUser(user);
 
             var editedUserViewModel = this._mapper.Map<UserViewModel>(editedUser);

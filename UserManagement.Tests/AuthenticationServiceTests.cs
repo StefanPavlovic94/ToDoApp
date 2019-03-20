@@ -3,7 +3,7 @@ using System.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UserManagement.Core.Abstractions;
 using UserManagement.Core.Implementations;
-using UserManagement.Core.Model;
+using UserManagement.Core.DomainModel;
 using UserManagement.Implementation.Services;
 using UserManagement.Persistance.Implementations;
 

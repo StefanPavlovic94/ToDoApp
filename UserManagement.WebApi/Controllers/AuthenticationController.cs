@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using UserManagement.Core.Abstractions;
-using UserManagement.Core.Model;
+using UserManagement.Core.ResponseModel;
 using UserManagement.WebApi.ViewModels;
 
 namespace UserManagement.WebApi.Controllers
@@ -13,7 +13,9 @@ namespace UserManagement.WebApi.Controllers
     {
         private readonly IAuthenticationService _authenticationService;
 
-        public AuthenticationController(IAuthenticationService authorizationService, IJwtService jwtService) 
+        public AuthenticationController(
+            IAuthenticationService authorizationService, 
+            IJwtService jwtService) 
             : base(jwtService)
         {
             this._authenticationService = authorizationService;

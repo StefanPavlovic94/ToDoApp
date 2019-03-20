@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserManagement.Core.Abstractions;
-using UserManagement.Core.Model;
+using UserManagement.Core.DomainModel;
 
 namespace UserManagement.Implementation.Services
 {

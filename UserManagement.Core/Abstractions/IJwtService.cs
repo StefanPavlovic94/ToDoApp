@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserManagement.Core.Enums;
-using UserManagement.Core.Model;
+using UserManagement.Core.ResponseModel;
 
 namespace UserManagement.Core.Abstractions
 {

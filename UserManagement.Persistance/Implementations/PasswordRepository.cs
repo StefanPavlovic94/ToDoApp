@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using UserManagement.Core.Abstractions;
-using UserManagement.Core.Model;
+using UserManagement.Core.DomainModel;
 
 namespace UserManagement.Persistance.Implementations
 {

@@ -7,7 +7,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UserManagement.Core.Model;
+using UserManagement.Core.DomainModel;
 
 namespace UserManagement.Persistance.Implementations
 {

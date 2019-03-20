@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UserManagement.Core.Enums;
 
-namespace UserManagement.Core.Model
+namespace UserManagement.Core.ResponseModel
 {
     public class AuthenticationInfo
     {

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserManagement.Common.Extensions;
 using UserManagement.Core.Abstractions;
-using UserManagement.Core.Model;
+using UserManagement.Core.DomainModel;
 
 namespace UserManagement.Implementation.Services
 {
@@ -27,7 +28,8 @@ namespace UserManagement.Implementation.Services
             if (string.IsNullOrWhiteSpace(user.Email) ||
                 string.IsNullOrWhiteSpace(user.FirstName) ||
                 string.IsNullOrWhiteSpace(user.LastName) ||
-                string.IsNullOrWhiteSpace(password))
+                string.IsNullOrWhiteSpace(password) ||
+                !user.Email.IsValidEmail())
             {
                 return false;
             }

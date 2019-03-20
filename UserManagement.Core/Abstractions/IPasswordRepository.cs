@@ -1,4 +1,4 @@
-﻿using UserManagement.Core.Model;
+﻿using UserManagement.Core.DomainModel;
 
 namespace UserManagement.Core.Abstractions
 {

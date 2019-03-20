@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UserManagement.Core.Model
+namespace UserManagement.Core.DomainModel
 {
     public class User
     {

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using UserManagement.Core.Model;
+using UserManagement.Core.DomainModel;
 using UserManagement.WebApi.ViewModels;
 
 namespace UserManagement.WebApi.Utilities

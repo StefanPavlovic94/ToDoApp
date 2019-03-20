@@ -69,6 +69,10 @@
     <Compile Include="Services\UserValidationService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\UserManagement.Common\UserManagement.Common.csproj">
+      <Project>{09C064AA-1489-4382-B2AC-FB9F63DB3F4A}</Project>
+      <Name>UserManagement.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UserManagement.Core\UserManagement.Core.csproj">
       <Project>{CB8EBEB6-03FD-4F05-A662-813B4715DAF6}</Project>
       <Name>UserManagement.Core</Name>

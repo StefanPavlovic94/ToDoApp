@@ -12,10 +12,10 @@ namespace UserManagement.Core.Abstractions
         IPasswordRepository AuthorizationRepository { get; set; }
         IPasswordRepository PasswordRepository { get; set; }
 
-        int SaveChanges();
-
         IDisposable BeginTransaction();
         void TransactionCommit();
         void TransactionRollback();
+
+        int SaveChanges();
     }
 }
