@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UserManagement.Core.Abstractions;
 using UserManagement.Core.Implementations;
@@ -19,9 +20,8 @@ namespace UserManagement.Tests
 
         public AuthenticationServiceTests()
         {
-            //todo: Move this secrets to unit test config file
-            string accessTokenSecret = "OSrgP0jDTDRdr/7haQGP4F4GOMFZgRp0Q8XGM7HtzEtNZtRDRv1JPSpmmWxfUD4r+mik+LVgcx7Dht7oIOcJNy5rPQIglvK8WWLrhqNJ6FX9Zz8VjHINj4wWVdnE4+QMkMV6/1mEwWyb5dj0IIC0d0pCZSy4V3kdjOrmZYmUqt0=";
-            string refreshTokenSecret = "1s0+tq5tPMaKXlyw8SLZUHzd5lXpI4PufpzTe03TJ8CSSccRrCdjR3npC3njqIk/nIYv2k3XpHgu3O+4Tif2ojzRSHf9xco74HKvUYkYq1d7eobViwKqT+Y+5pz/nmCOAL0OslSUO85UfD06FGwQyqJJsmpHmGNAordsmyz5yDM=";
+            string accessTokenSecret = ConfigurationManager.AppSettings["AccessTokenSecret"];
+            string refreshTokenSecret = ConfigurationManager.AppSettings["RefreshTokenSecret"];
 
             IJwtService jwtService = new JwtService(accessTokenSecret, refreshTokenSecret);
             this._passwordService = new PasswordService();
@@ -65,7 +65,8 @@ namespace UserManagement.Tests
         [TestMethod]
         public void TestLoginWithValidEmailAndPassword()
         {
-           var authenticationResponse = this._authenticationService.Login(this.validEmail, this.validPassword);
+            var authenticationResponse = this._authenticationService.Login(this.validEmail, this.validPassword);
+
             Assert.AreEqual(authenticationResponse.IsAuthenticated, true);
             Assert.AreNotEqual(null, authenticationResponse.AccessToken);
             Assert.AreNotEqual(null, authenticationResponse.RefreshToken);
