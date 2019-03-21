@@ -61,6 +61,7 @@
     <Compile Include="PasswordServiceTests.cs" />
     <Compile Include="JwtServiceTests.cs" />
     <Compile Include="AuthenticationServiceTests.cs" />
+    <Compile Include="UserValidationServiceTests.cs" />
     <Compile Include="UserServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>

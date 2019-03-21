@@ -13,6 +13,11 @@ namespace UserManagement.Implementation.Services
     {
         public bool ValidateEditUser(User user)
         {
+            if (user == null)
+            {
+                return false;
+            }
+
             if (string.IsNullOrWhiteSpace(user.Email) ||
                 string.IsNullOrWhiteSpace(user.FirstName) ||
                 string.IsNullOrWhiteSpace(user.LastName))
@@ -25,6 +30,11 @@ namespace UserManagement.Implementation.Services
 
         public bool ValidateRegisterUserParams(User user, string password)
         {
+            if (user == null)
+            {
+                return false;
+            }
+
             if (string.IsNullOrWhiteSpace(user.Email) ||
                 string.IsNullOrWhiteSpace(user.FirstName) ||
                 string.IsNullOrWhiteSpace(user.LastName) ||

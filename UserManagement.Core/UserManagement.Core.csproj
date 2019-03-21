@@ -49,7 +49,7 @@
     <Compile Include="Abstractions\IPersistance.cs" />
     <Compile Include="Abstractions\IUserRepository.cs" />
     <Compile Include="Abstractions\IUserService.cs" />
-    <Compile Include="Abstractions\IValidationService.cs" />
+    <Compile Include="Abstractions\IUserValidationService.cs" />
     <Compile Include="Enums\CustomClaimType.cs" />
     <Compile Include="Enums\JwtTokenType.cs" />
     <Compile Include="Implementations\AuthenticationService.cs" />
