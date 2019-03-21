@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement.Tests", "Use
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement.Common", "UserManagement.Common\UserManagement.Common.csproj", "{09C064AA-1489-4382-B2AC-FB9F63DB3F4A}"
 EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "ToDo.WebApi", "ToDo.WebApi\ToDo.WebApi.njsproj", "{61D4F2E3-456E-40C2-B55F-713E353A8741}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{09C064AA-1489-4382-B2AC-FB9F63DB3F4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09C064AA-1489-4382-B2AC-FB9F63DB3F4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09C064AA-1489-4382-B2AC-FB9F63DB3F4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61D4F2E3-456E-40C2-B55F-713E353A8741}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61D4F2E3-456E-40C2-B55F-713E353A8741}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61D4F2E3-456E-40C2-B55F-713E353A8741}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61D4F2E3-456E-40C2-B55F-713E353A8741}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{911D7731-9675-40C0-9E7E-BEE17BE9F16C} = {E4FBA27C-CFFF-424A-B259-F2540C3FDC53}
 		{22E69229-1474-4A0B-A092-C916743C471A} = {E4FBA27C-CFFF-424A-B259-F2540C3FDC53}
 		{09C064AA-1489-4382-B2AC-FB9F63DB3F4A} = {E4FBA27C-CFFF-424A-B259-F2540C3FDC53}
+		{61D4F2E3-456E-40C2-B55F-713E353A8741} = {7D391BA9-40A0-4288-8BB6-75752FA720E6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A7C0F618-EAB3-4514-8EFF-F980C2DB6BFC}
